@@ -30,7 +30,7 @@ exports.div = `
             </ul>
           </div>
         <div class="card mb-4">
-        <form action="report_process">
+        <form action="report_process" method="post">
             <table border="1" width=500 class="table" style="display:none;" id="sanyoung">
                 <tr>
                     <th colspan="2">
@@ -39,7 +39,7 @@ exports.div = `
                 </tr>
                 <tr>
                     <td width=50>
-                        <select>
+                        <select name="selectroom">
                             <option>강의실을 선택해주세요</option>
                             <option value="sangyoung201">201호</option>
                             <option value="sangyoung202">202호</option>
@@ -49,7 +49,7 @@ exports.div = `
                 </tr>
                 <tr>
                     <td colspan="2" height=400>
-                        <textarea placeholder="내용을 입력하세요." style="width: 500%; height: 100%"></textarea>
+                        <textarea name="reportcontent"placeholder="내용을 입력하세요." style="width: 500%; height: 100%"></textarea>
                     </td>
                 </tr>
                 <tr>

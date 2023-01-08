@@ -88,7 +88,7 @@ router.post("/process",(req,res) => {
   db.query('SELECT * FROM register',function(err,register){
     db.query('SELECT * FROM Afloor2',function(err2,Afloor2){
       if(select201 === '입실'){
-        if(Afloor2[0].status === '사용 가능'){
+        if(Afloor2[0].status === '사용가능'){
           db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
           ['사용 중',cookies.id,201],
           function(err3,result){
@@ -106,11 +106,11 @@ router.post("/process",(req,res) => {
       else if(select201 ==='퇴실'){
         if(Afloor2[0].status === '사용 중'){
           db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
-          ['사용 가능',cookies.id,201],
+          ['사용가능',cookies.id,201],
           function(err3,result){
             console.log("퇴실이 완료되셨습니다");
             db.query('UPDATE register SET usingtrue=? WHERE id=?',
-            ['사용 가능',cookies.id],function(err4,register2){
+            ['사용가능',cookies.id],function(err4,register2){
               res.redirect('/A');
             });
           })
@@ -120,7 +120,7 @@ router.post("/process",(req,res) => {
         }
       }
       else if(select201 === '예약'){
-        if(Afloor2[0].status === '사용 가능'){
+        if(Afloor2[0].status === '사용가능'){
           db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
           ['사용 중',cookies.id,201],
           function(err3,result){
@@ -133,7 +133,7 @@ router.post("/process",(req,res) => {
         }
       }
     if(select202 === '입실'){
-      if(Afloor2[1].status === '사용 가능'){
+      if(Afloor2[1].status === '사용가능'){
         db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
         ['사용 중',cookies.id,202],
         function(err3,result){
@@ -151,11 +151,11 @@ router.post("/process",(req,res) => {
     else if(select202 ==='퇴실'){
       if(Afloor2[1].status === '사용 중'){
         db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
-        ['사용 가능',cookies.id,202],
+        ['사용가능',cookies.id,202],
         function(err3,result){
           console.log("퇴실이 완료되셨습니다");
           db.query('UPDATE register SET usingtrue=? WHERE id=?',
-          ['사용 가능',cookies.id],function(err4,register2){
+          ['사용가능',cookies.id],function(err4,register2){
             res.redirect('/A');
           });
         })
@@ -165,7 +165,7 @@ router.post("/process",(req,res) => {
       }
     }
     else if(select202 === '예약'){
-      if(Afloor2[1].status === '사용 가능'){
+      if(Afloor2[1].status === '사용가능'){
         db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
         ['사용 중',cookies.id,202],
         function(err3,result){
@@ -178,7 +178,7 @@ router.post("/process",(req,res) => {
       }
     }
     if(select203 === '입실'){
-      if(Afloor2[2].status === '사용 가능'){
+      if(Afloor2[2].status === '사용가능'){
         db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
         ['사용 중',cookies.id,203],
         function(err3,result){
@@ -196,11 +196,11 @@ router.post("/process",(req,res) => {
     else if(select203 ==='퇴실'){
       if(Afloor2[2].status === '사용 중'){
         db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
-        ['사용 가능',cookies.id,203],
+        ['사용가능',cookies.id,203],
         function(err3,result){
           console.log("퇴실이 완료되셨습니다");
           db.query('UPDATE register SET usingtrue=? WHERE id=?',
-          ['사용 가능',cookies.id],function(err4,register2){
+          ['사용가능',cookies.id],function(err4,register2){
             res.redirect('/A');
           });
         })
@@ -210,7 +210,7 @@ router.post("/process",(req,res) => {
       }
     }
     else if(select203 === '예약'){
-      if(Afloor2[2].status === '사용 가능'){
+      if(Afloor2[2].status === '사용가능'){
         db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
         ['사용 중',cookies.id,203],
         function(err3,result){

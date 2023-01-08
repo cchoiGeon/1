@@ -2,6 +2,8 @@
 const express = require("express");
 const server = express();
 const bodyParser = require('body-parser');
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 const mysql = require('mysql');
 const cookie = require('cookie');
 
@@ -66,7 +68,12 @@ db.connect();
 //use 매서드 사용
 server.use(express.static("images"));
 server.use(bodyParser.urlencoded({ extended: false}));
-
+server.use(session({
+  secret: 'q1321weff@45%$',
+  resave: false,
+  saveUninitialized: true,
+  store: new FileStore()
+}))
 //라우팅
 server.use('/A',Arouter);
 
@@ -101,10 +108,15 @@ server.get("/report", (req, res) => {
   res.send(overlap.repeat(thiscss,loginbutton,logoutbutton,report.div,report.script,thisscript));
 });
 server.post("/report_process",(req,res) => {
-  var post = req.body;
-  var reportcontent201 = post.reportreason201;
-  console.log(reportcontent201);
-  res.redirect('/report')
+  let post = req.body;
+  let reportcontent = post.reportcontent;
+  let selectroom = post.selectroom;
+  cookies = cookie.parse(req.headers.cookie);
+  db.query('INSERT INTO report(floornum,content,time,userid) VALUES(?,?,NOW(),?)',
+          [selectroom,reportcontent,cookies.id],
+          function(err,report){
+            res.redirect('/report');
+  });
 });
 
 server.get("/board", (req, res) => {

@@ -80,7 +80,14 @@ CREATE TABLE register(
   name TEXT NULL,
   PRIMARY KEY(num)
 );
-
+CREATE TABLE report(
+  num INT(5) NOT NULL AUTO_INCREMENT,
+  floornum TEXT NOT NULL,
+  content TEXT NOT NULL,
+  time DATETIME NULL,
+  userid TEXT NULL,
+  PRIMARY KEY(num)
+);
 기본 세팅
 INSERT INTO Afloor2(number,status) VALUES('201','사용가능');
 INSERT INTO Afloor2(number,status) VALUES('202','사용가능');
