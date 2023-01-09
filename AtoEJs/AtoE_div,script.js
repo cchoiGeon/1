@@ -87,7 +87,6 @@ exports.Afloor2= function(counting,status201,status202,status203){
         </ol>  
     </div>
   </form>
-    <div class="card mb-4">
         <div id="floor2">
         <form action="/A/process" method="post">
             <table class="table">
@@ -130,9 +129,9 @@ exports.Afloor2= function(counting,status201,status202,status203){
             </table>
           </form>
         </div>
-    </div>
 </main>
 </div>`
+
 }
 exports.Afloor3= function(){
   return `

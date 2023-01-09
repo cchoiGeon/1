@@ -2,8 +2,8 @@
 const express = require("express");
 const server = express();
 const bodyParser = require('body-parser');
-const session = require('express-session');
-const FileStore = require('session-file-store')(session);
+// const session = require('express-session');
+// const FileStore = require('session-file-store')(session);
 const mysql = require('mysql');
 const cookie = require('cookie');
 
@@ -34,30 +34,25 @@ var loginbutton = `<li><a class="dropdown-item" href="/login">로그인</a></li>
 var logoutbutton = '';  
 
 function logintrue(req,res){
-  if(req.headers.cookie===undefined){
-      loginbutton = `<li><a class="dropdown-item" href="/login">로그인</a></li>
-      <li><a class="dropdown-item" href="/register">회원가입</a></li>`;
-      logoutbutton = ''
-      res.writeHead(302, {'Location': '/login'});
-      res.end();
-  }
-  if(req.headers.cookie){
-    if(cookie.parse(req.headers.cookie).logintrue){
-      loginbutton = '';
-      logoutbutton = `<li><hr class="dropdown-divider" /></li>
-      <li><a class="dropdown-item" href="/logout_process">로그아웃</a></li>`;
-    }
+  cookies = cookie.parse(req.headers.cookie);
+  if(cookies.logintrue){
+    loginbutton = '';
+    logoutbutton = `<li><hr class="dropdown-divider" /></li>
+    <li><a class="dropdown-item" href="/logout_process">로그아웃</a></li>`;
+  }else{
+    loginbutton = `<li><a class="dropdown-item" href="/login">로그인</a></li>
+    <li><a class="dropdown-item" href="/register">회원가입</a></li>`;
+    logoutbutton = ''
+    res.redirect('/login')
   }
 }
 function logintrueindex(req,res){
-  if(req.headers.cookie){
-    if(cookie.parse(req.headers.cookie).logintrue){
-      loginbutton = '';
-      logoutbutton = `<li><hr class="dropdown-divider" /></li>
-      <li><a class="dropdown-item" href="/logout_process">로그아웃</a></li>`;
-    }
-  }
-  if(req.headers.cookie===undefined){
+  cookies = cookie.parse(req.headers.cookie);
+  if(cookies.logintrue){
+    loginbutton = '';
+    logoutbutton = `<li><hr class="dropdown-divider" /></li>
+    <li><a class="dropdown-item" href="/logout_process">로그아웃</a></li>`;
+  }else{
     loginbutton = `<li><a class="dropdown-item" href="/login">로그인</a></li>
     <li><a class="dropdown-item" href="/register">회원가입</a></li>`;
     logoutbutton = ''
@@ -66,14 +61,16 @@ function logintrueindex(req,res){
 
 db.connect();
 //use 매서드 사용
+
 server.use(express.static("images"));
 server.use(bodyParser.urlencoded({ extended: false}));
-server.use(session({
-  secret: 'q1321weff@45%$',
-  resave: false,
-  saveUninitialized: true,
-  store: new FileStore()
-}))
+// server.use(session({
+//   secret: 'sadd',
+//   resave: false,
+//   saveUninitialized: true,
+//   store: new FileStore()
+// }));
+
 //라우팅
 server.use('/A',Arouter);
 

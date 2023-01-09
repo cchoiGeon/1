@@ -1,16 +1,22 @@
+//기본세팅
 const express = require("express");
 const router = express.Router();
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
+// const session = require('express-session');
+// const FileStore = require('session-file-store')(session);
+const cookie = require('cookie');
+//내가 만든 모듈
 const thisscript = require("../overlapJs/overlapscript"); //기본 틀 script
 const thiscss = require("../overlapJs/overlapcss"); // 기본 틀 css
 const overlap = require("../overlapJs/overlap_div,script"); // 중복되는 코드들을 모아놓음 repeat으로 묶음 
 const Lectureroom = require("../AtoEJs/AtoE_div,script"); // A동~E동까지 div와 script를 따로 만듬 
-const cookie = require('cookie');
-var counting = 0;
 
+//변수 
+var counting = 0;
 var cookies = {}
 
+//mysql 정의
 const db = mysql.createConnection({
   host : 'localhost',
   user : 'root',
@@ -19,36 +25,32 @@ const db = mysql.createConnection({
 });
 db.connect();
 
+//로그인 확인
 var loginbutton = `<li><a class="dropdown-item" href="/login">로그인</a></li>
 <li><a class="dropdown-item" href="/register">회원가입</a></li>`;
 var logoutbutton = '';  
-
 function logintrue(req,res){
-  if(req.headers.cookie===undefined){
-      loginbutton = `<li><a class="dropdown-item" href="/login">로그인</a></li>
-      <li><a class="dropdown-item" href="/register">회원가입</a></li>`;
-      logoutbutton = ''
-      res.writeHead(302, {'Location': '/login'});
-      res.end();
-  }
-  if(cookie.parse(req.headers.cookie).logintrue===undefined){
+  cookies = cookie.parse(req.headers.cookie);
+  if(cookies.logintrue){
+    loginbutton = '';
+    logoutbutton = `<li><hr class="dropdown-divider" /></li>
+    <li><a class="dropdown-item" href="/logout_process">로그아웃</a></li>`;
+  }else{
     loginbutton = `<li><a class="dropdown-item" href="/login">로그인</a></li>
     <li><a class="dropdown-item" href="/register">회원가입</a></li>`;
     logoutbutton = ''
-    res.writeHead(302, {'Location': '/login'});
-    res.end();
-  }
-  if(req.headers.cookie){
-    if(cookie.parse(req.headers.cookie).logintrue){
-      loginbutton = '';
-      logoutbutton = `<li><hr class="dropdown-divider" /></li>
-      <li><a class="dropdown-item" href="/logout_process">로그아웃</a></li>`;
-    }
+    res.redirect('/login')
   }
 }
-
+//use 메서드
 router.use(express.static("images"));
 router.use(bodyParser.urlencoded({ extended: false}));
+// router.use(session({
+//   secret: 'q1321weff@45%$',
+//   resave: false,
+//   saveUninitialized: true,
+//   store: new FileStore()
+// }))
 
 router.get("/", (req, res) => {
   logintrue(req,res);
@@ -130,6 +132,9 @@ router.post("/process",(req,res) => {
               res.redirect('/A');
             });
           })
+        }else{
+          console.log('사용 중인 강의실입니다.')
+          res.redirect('/A');
         }
       }
     if(select202 === '입실'){
@@ -175,6 +180,9 @@ router.post("/process",(req,res) => {
             res.redirect('/A');
           });
         })
+      }else{
+        console.log("사용 중인 강의실입니다");
+        res.redirect('/A');
       }
     }
     if(select203 === '입실'){
@@ -220,6 +228,9 @@ router.post("/process",(req,res) => {
             res.redirect('/A');
           });
         })
+      }else{
+        console.log("사용 중인 강의실입니다");
+        res.redirect('/A');
       }
     }
   });
