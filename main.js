@@ -165,13 +165,23 @@ server.get("/register", (req, res) => {
 });
 server.post("/register_process", (req, res) => {
   var post = req.body;
-  if(post.password === post.checkpassword){
-      db.query('INSERT INTO register(id,password,usetrue,name) VALUES(?,?,?,?)',[post.id,post.password,'사용가능',post.name],function(err,result){
-        res.redirect('/login');
-    });
-  }else{
-    res.redirect('/register');
-  }
+  db.query('SELECT * FROM register',function(err,register){
+    for(var i = 0; i < register.length; i++){
+      if(register[i].id === post.id){
+        console.log('사용 중인 아이디입니다')
+        res.redirect('/register');
+      }
+      else{
+        if(post.password === post.checkpassword){
+          db.query('INSERT INTO register(id,password,usetrue,name) VALUES(?,?,?,?)',[post.id,post.password,'사용가능',post.name],function(err,result){
+            res.redirect('/login');
+          });
+        }else{
+          res.redirect('/register');
+        }
+      }
+    }
+});
 });
 
 server.listen(3000);
