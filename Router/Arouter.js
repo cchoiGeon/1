@@ -90,8 +90,6 @@ router.post("/process",(req,res) => {
   db.query('SELECT * FROM register',function(err,register){
     db.query('SELECT * FROM Afloor2',function(err2,Afloor2){
       for(let i=0; i<register.length; i++){
-
-        
         if(select201 === '입실'){
           if(Afloor2[0].status === '사용가능'){
             if(register[i].id === cookies.id && register[i].usetrue === '사용가능'){
@@ -129,7 +127,6 @@ router.post("/process",(req,res) => {
             res.redirect('/A');
           }
         }
-
         else if(select201 === '예약'){
           if(Afloor2[0].status === '사용가능'){
             if(register[i].id === cookies.id && register[i].usetrue === '사용가능'){
@@ -151,108 +148,124 @@ router.post("/process",(req,res) => {
             res.redirect('/A');
           }
         }
-
-
-
-
-      if(select202 === '입실'){
-        if(Afloor2[1].status === '사용가능'){
-          db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
-          ['사용 중',cookies.id,202],
-          function(err3,result){
-            console.log("입실이 완료되셨습니다");
-            db.query('UPDATE register SET usetrue=? WHERE id=?',
-            ['사용 중',cookies.id],function(err4,register2){
-              res.redirect('/A');
-            });
-          })
-        }else{
-          console.log("사용 중인 강의실입니다");
-          res.redirect('/A');
+        if(select202 === '입실'){
+          if(Afloor2[1].status === '사용가능'){
+            if(register[i].id === cookies.id && register[i].usetrue === '사용가능'){
+              db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
+              ['사용 중',cookies.id,202],
+              function(err3,result){
+                console.log("입실이 완료되셨습니다");
+                db.query('UPDATE register SET usetrue=? WHERE id=?',
+                ['사용 중',cookies.id],function(err4,register2){
+                  res.redirect('/A');
+                });
+              })
+            }else{
+              console.log('사용중인 강의실이있습니다');
+              res.redirect('/A')
+            }
+          }else{
+            console.log("사용 중인 강의실입니다");
+            res.redirect('/A');
+          }
+        }
+        else if(select202 ==='퇴실'){
+          if(Afloor2[1].status === '사용 중'){
+            db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
+            ['사용가능',cookies.id,202],
+            function(err3,result){
+              console.log("퇴실이 완료되셨습니다");
+              db.query('UPDATE register SET usetrue=? WHERE id=?',
+              ['사용가능',cookies.id],function(err4,register2){
+                res.redirect('/A');
+              });
+            })
+          }else{
+            console.log('빈 강의실이거나 퇴실 완료한 강의실입니다.')
+            res.redirect('/A');
+          }
+        }
+        else if(select202 === '예약'){
+          if(Afloor2[1].status === '사용가능'){
+            if(register[i].id === cookies.id && register[i].usetrue === '사용가능'){
+              db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
+              ['사용 중',cookies.id,202],
+              function(err3,result){
+                console.log("예약이 완료되셨습니다");
+                db.query('UPDATE register SET usetrue=? WHERE id=?',
+                ['사용 중',cookies.id],function(err4,register2){
+                  res.redirect('/A');
+                });
+              })
+            }else{
+              console.log('사용중인 강의실이있습니다');
+              res.redirect('/A')
+            }
+          }else{
+            console.log('사용 중인 강의실입니다.')
+            res.redirect('/A');
+          }
+        }
+        if(select203 === '입실'){
+          if(Afloor2[2].status === '사용가능'){
+            if(register[i].id === cookies.id && register[i].usetrue === '사용가능'){
+              db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
+              ['사용 중',cookies.id,203],
+              function(err3,result){
+                console.log("입실이 완료되셨습니다");
+                db.query('UPDATE register SET usetrue=? WHERE id=?',
+                ['사용 중',cookies.id],function(err4,register2){
+                  res.redirect('/A');
+                });
+              })
+            }else{
+              console.log('사용중인 강의실이있습니다');
+              res.redirect('/A')
+            }
+          }else{
+            console.log("사용 중인 강의실입니다");
+            res.redirect('/A');
+          }
+        }
+        else if(select203 ==='퇴실'){
+          if(Afloor2[2].status === '사용 중'){
+            db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
+            ['사용가능',cookies.id,203],
+            function(err3,result){
+              console.log("퇴실이 완료되셨습니다");
+              db.query('UPDATE register SET usetrue=? WHERE id=?',
+              ['사용가능',cookies.id],function(err4,register2){
+                res.redirect('/A');
+              });
+            })
+          }else{
+            console.log('빈 강의실이거나 퇴실 완료한 강의실입니다.')
+            res.redirect('/A');
+          }
+        }
+        else if(select203 === '예약'){
+          if(Afloor2[2].status === '사용가능'){
+            if(register[i].id === cookies.id && register[i].usetrue === '사용가능'){
+              db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
+              ['사용 중',cookies.id,203],
+              function(err3,result){
+                console.log("예약이 완료되셨습니다");
+                db.query('UPDATE register SET usetrue=? WHERE id=?',
+                ['사용 중',cookies.id],function(err4,register2){
+                  res.redirect('/A');
+                });
+              })
+            }else{
+              console.log('사용중인 강의실이있습니다');
+              res.redirect('/A')
+            }
+          }else{
+            console.log('사용 중인 강의실입니다.')
+            res.redirect('/A');
+          }
         }
       }
-      else if(select202 ==='퇴실'){
-        if(Afloor2[1].status === '사용 중'){
-          db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
-          ['사용가능',cookies.id,202],
-          function(err3,result){
-            console.log("퇴실이 완료되셨습니다");
-            db.query('UPDATE register SET usetrue=? WHERE id=?',
-            ['사용가능',cookies.id],function(err4,register2){
-              res.redirect('/A');
-            });
-          })
-        }else{
-          console.log('빈 강의실이거나 퇴실 완료한 강의실입니다.')
-          res.redirect('/A');
-        }
-      }
-      else if(select202 === '예약'){
-        if(Afloor2[1].status === '사용가능'){
-          db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
-          ['사용 중',cookies.id,202],
-          function(err3,result){
-            console.log("예약이 완료되셨습니다");
-            db.query('UPDATE register SET usetrue=? WHERE id=?',
-            ['사용 중',cookies.id],function(err4,register2){
-              res.redirect('/A');
-            });
-          })
-        }else{
-          console.log("사용 중인 강의실입니다");
-          res.redirect('/A');
-        }
-      }
-      if(select203 === '입실'){
-        if(Afloor2[2].status === '사용가능'){
-          db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
-          ['사용 중',cookies.id,203],
-          function(err3,result){
-            console.log("입실이 완료되셨습니다");
-            db.query('UPDATE register SET usetrue=? WHERE id=?',
-            ['사용 중',cookies.id],function(err4,register2){
-              res.redirect('/A');
-            });
-          })
-        }else{
-          console.log("사용 중인 강의실입니다");
-          res.redirect('/A');
-        }
-      }
-      else if(select203 ==='퇴실'){
-        if(Afloor2[2].status === '사용 중'){
-          db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
-          ['사용가능',cookies.id,203],
-          function(err3,result){
-            console.log("퇴실이 완료되셨습니다");
-            db.query('UPDATE register SET usetrue=? WHERE id=?',
-            ['사용가능',cookies.id],function(err4,register2){
-              res.redirect('/A');
-            });
-          })
-        }else{
-          console.log('빈 강의실이거나 퇴실 완료한 강의실입니다.')
-          res.redirect('/A');
-        }
-      }
-      else if(select203 === '예약'){
-        if(Afloor2[2].status === '사용가능'){
-          db.query('UPDATE Afloor2 SET status=?, time=NOW(), userId=? WHERE number=?',
-          ['사용 중',cookies.id,203],
-          function(err3,result){
-            console.log("예약이 완료되셨습니다");
-            db.query('UPDATE register SET usetrue=? WHERE id=?',
-            ['사용 중',cookies.id],function(err4,register2){
-              res.redirect('/A');
-            });
-          })
-        }else{
-          console.log("사용 중인 강의실입니다");
-          res.redirect('/A');
-        }
-      }
-    }
+    });
   });
-});
 });
 module.exports = router;
